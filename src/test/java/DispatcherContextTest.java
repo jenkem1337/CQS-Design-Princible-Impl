@@ -34,7 +34,7 @@ public class DispatcherContextTest {
     }
 
     @Test
-    void createAnInstanceOfDispatcherContext() {
+    void createAnInstanceOfDispatcherContextAndItShouldBeDispatcherContextInstance() {
         var dispatcherContextFactory = new DispatcherContextFactory(((commandDispatcherMediator, queryDispatcherMediator) -> {
 
             commandDispatcherMediator.addHandler(CreateCounterCommand.class.getSimpleName(), new CreateCounterCommandHandler(new CounterInMemoryDb()));
