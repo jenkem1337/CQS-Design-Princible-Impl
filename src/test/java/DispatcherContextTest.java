@@ -1,10 +1,21 @@
-import dummy.example.*;
+import dummy_classes.*;
+import dummy_classes.Command.*;
+import dummy_classes.Events.CounterDecremented;
+import dummy_classes.Events.CounterDecrementedEventHandler;
+import dummy_classes.Events.CounterIncremented;
+import dummy_classes.Events.CounterIncrementedEventHandler;
+import dummy_classes.Model.Counter;
+import dummy_classes.Queries.GetACounterQuery;
+import dummy_classes.Queries.GetSingleCounterQueryHandler;
 import org.cqs.impl.DispatcherContext;
 
 import org.cqs.impl.DispatcherContextFactory;
+import org.cqs.impl.EventPublisherContextFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -12,14 +23,23 @@ import static org.junit.jupiter.api.Assertions.*;
 public class DispatcherContextTest {
     private DispatcherContext dispatcherContext;
 
+
     @BeforeEach
     void setUp() {
         var dispatcherContextFactory = new DispatcherContextFactory( (commandDispatcherMediator, queryDispatcherMediator) -> {
+
+            var eventPublisherContext = new EventPublisherContextFactory(eventDispatcherMediator -> {
+
+                eventDispatcherMediator.addHandler(CounterIncremented.class.getSimpleName(), Arrays.asList(new CounterIncrementedEventHandler(CounterEventStoreImpl.getInstance())))
+                        .addHandler(CounterDecremented.class.getSimpleName(), Arrays.asList(new CounterDecrementedEventHandler(CounterEventStoreImpl.getInstance())));
+
+            }).createAnInstanceOfEventPublisherContext();
+
             var inMemoryDb = new CounterInMemoryDb();
             commandDispatcherMediator
                     .addHandler(CreateCounterCommand.class.getSimpleName(), new CreateCounterCommandHandler(inMemoryDb))
-                    .addHandler(IncrementCounterCommand.class.getSimpleName(), new IncrementCounterCommandHandler(inMemoryDb))
-                    .addHandler(DecrementCounterCommand.class.getSimpleName(), new DecrementCounterCommandHandler(inMemoryDb));
+                    .addHandler(IncrementCounterCommand.class.getSimpleName(), new IncrementCounterCommandHandler(inMemoryDb, eventPublisherContext))
+                    .addHandler(DecrementCounterCommand.class.getSimpleName(), new DecrementCounterCommandHandler(inMemoryDb, eventPublisherContext));
 
             queryDispatcherMediator.addHandler(GetACounterQuery.class.getSimpleName(), new GetSingleCounterQueryHandler(inMemoryDb));
 
