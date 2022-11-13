@@ -1,5 +1,8 @@
-package dummy.example;
+package dummy_classes.Command;
 
+import dummy_classes.Command.CreateCounterCommand;
+import dummy_classes.CounterDao;
+import dummy_classes.Model.Counter;
 import org.cqs.CommandHandler;
 
 public class CreateCounterCommandHandler implements CommandHandler<CreateCounterCommand> {

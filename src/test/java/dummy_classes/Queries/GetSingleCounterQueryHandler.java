@@ -1,5 +1,7 @@
-package dummy.example;
+package dummy_classes.Queries;
 
+import dummy_classes.CounterDao;
+import dummy_classes.Model.Counter;
 import org.cqs.QueryHandler;
 
 public class GetSingleCounterQueryHandler implements QueryHandler<GetACounterQuery, Counter> {

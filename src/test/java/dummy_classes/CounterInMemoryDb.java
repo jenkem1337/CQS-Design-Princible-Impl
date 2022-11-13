@@ -1,4 +1,6 @@
-package dummy.example;
+package dummy_classes;
+
+import dummy_classes.Model.Counter;
 
 import java.util.HashMap;
 import java.util.Map;

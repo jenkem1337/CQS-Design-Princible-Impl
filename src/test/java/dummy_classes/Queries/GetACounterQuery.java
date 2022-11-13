@@ -1,4 +1,4 @@
-package dummy.example;
+package dummy_classes.Queries;
 
 import org.cqs.Query;
 

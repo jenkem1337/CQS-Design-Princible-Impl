@@ -1,8 +1,7 @@
-import dummy.example.Counter;
-import dummy.example.CounterInMemoryDb;
-import dummy.example.GetACounterQuery;
-import dummy.example.GetSingleCounterQueryHandler;
-import org.cqs.CommandDispatcherMediator;
+import dummy_classes.Model.Counter;
+import dummy_classes.CounterInMemoryDb;
+import dummy_classes.Queries.GetACounterQuery;
+import dummy_classes.Queries.GetSingleCounterQueryHandler;
 import org.cqs.Query;
 import org.cqs.QueryDispatcherMediator;
 import org.cqs.impl.BaseDispatcherMediatorComponent;
@@ -35,7 +34,8 @@ public class QueryDispatcherMediatorTest {
     }
     private BaseDispatcherMediatorComponent getLocalBaseMediatorComponent(){
         class ConcreteDispatcherMediatorComponent extends BaseDispatcherMediatorComponent {
-            public void setQueryDispatcherMediator(CommandDispatcherMediator c){}
+            @Override
+            public void setQueryDispatcherMediator(QueryDispatcherMediator c){}
         }
         return new ConcreteDispatcherMediatorComponent();
     }

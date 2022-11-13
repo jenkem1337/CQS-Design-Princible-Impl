@@ -1,4 +1,4 @@
-package dummy.example;
+package dummy_classes.Command;
 
 import org.cqs.Command;
 
