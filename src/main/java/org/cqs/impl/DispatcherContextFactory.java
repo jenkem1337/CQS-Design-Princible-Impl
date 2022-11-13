@@ -8,19 +8,18 @@ import java.util.Map;
 public class DispatcherContextFactory {
     private RequestStrategy<Command> commandRequestStrategy;
     private RequestStrategy<Query>  queryRequestStrategy;
+    private RequestStrategy<Event> eventRequestStrategy;
 
     private CommandDispatcherMediator commandDispatcherMediator;
     private QueryDispatcherMediator queryDispatcherMediator;
-
-    private DispatcherContext dispatcherContext;
-
+    private EventDispatcherMediator eventDispatcherMediator;
     private Map<String, RequestStrategy> dispatcherContextHashMap = new HashMap<>();
     public DispatcherContextFactory(DispathcerMediatorCallback callback) {
         commandRequestStrategy = new CommandRequestStrategy();
-        queryRequestStrategy = new QueryRequestStrategy();
+        queryRequestStrategy   = new QueryRequestStrategy();
 
         commandDispatcherMediator = new CommandDispatcherMediatorImpl((BaseDispatcherMediatorComponent) commandRequestStrategy);
-        queryDispatcherMediator = new QueryDispatcherMediatorImpl((BaseDispatcherMediatorComponent) queryRequestStrategy);
+        queryDispatcherMediator   = new QueryDispatcherMediatorImpl((BaseDispatcherMediatorComponent) queryRequestStrategy);
 
         callback.apply(commandDispatcherMediator, queryDispatcherMediator);
 
